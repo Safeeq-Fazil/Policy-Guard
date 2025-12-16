@@ -20,22 +20,22 @@ This project addresses these challenges by integrating machine learning algorith
 - Secure handling of data and API credentials
 
 ## Requirements
-Operating System:
+- Operating System:
 Requires a 64-bit operating system such as Windows 10 or Ubuntu for compatibility.
 
-Development Environment:
+- Development Environment:
 Python 3.8 or later for backend development and model execution.
 
-Machine Learning Libraries:
+- Machine Learning Libraries:
 Scikit-learn for model training and prediction, Pandas and NumPy for data preprocessing.
 
-Web Framework:
+- Web Framework:
 Flask for backend server development and API handling.
 
-Frontend Technologies:
+- Frontend Technologies:
 HTML, CSS, and JavaScript for building responsive user interfaces.
 
-Database / Storage:
+- Database / Storage:
 Google Sheets or CSV-based storage for managing customer datasets.
 
 IDE & Tools:
@@ -66,7 +66,7 @@ Prediction Accuracy: ~90%
 ## Results and Impact
 The PolicyGuard system significantly improves the ability of insurance companies to identify potential churners at an early stage. By replacing manual analysis with automated machine learning predictions, the system enhances decision-making speed and accuracy. The interactive dashboard and recommendation engine help business teams design targeted retention strategies, reducing customer attrition and improving revenue stability. This project demonstrates the practical application of machine learning in real-world insurance analytics and supports sustainable customer relationship management.
 
-## Articles published / References
+## References
 1. Nagaraju Jajam et al., “Predicting Customer Churn in the Insurance Industry Using Big Data and Machine Learning,” International Journal of Information Systems and Applied Engineering, 2023.
 
 2. Customer Churn Prediction Using Machine Learning Techniques, Asian Journal of Basic Science & Research, 2022.
