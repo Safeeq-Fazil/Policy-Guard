@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 NCERT Learning World - Class 10</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --secondary-color: #10b981;
+            --accent-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-color: #1f2937;
+            --light-bg: #f8fafc;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        /* UI Components */
+        .game-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .chapter-btn {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 15px;
+            padding: 15px 25px;
+            color: white;
+            font-weight: bold;
+            margin: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chapter-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
+        }
+
+        .chapter-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .chapter-btn:hover:before {
+            left: 100%;
+        }
+
+        .xp-bar {
+            background: #e5e7eb;
+            border-radius: 20px;
+            height: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .xp-fill {
+            background: linear-gradient(90deg, #10b981, #34d399);
+            height: 100%;
+            transition: width 1s ease;
+            position: relative;
+        }
+
+        .xp-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: sparkle 2s infinite;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .coin-counter {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #8b5cf6;
+            animation: pulse 2s infinite;
+        }
+
+        .game-screen {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 400px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .quiz-option {
+            background: #f3f4f6;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: #e5e7eb;
+            border-color: var(--primary-color);
+            transform: translateX(10px);
+        }
+
+        .quiz-option.correct {
+            background: #dcfce7;
+            border-color: var(--secondary-color);
+            animation: bounceIn 0.5s ease;
+        }
+
+        .quiz-option.wrong {
+            background: #fef2f2;
+            border-color: var(--danger-color);
+            animation: bounceIn 0.5s ease;
+        }
+
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring-circle {
+            fill: transparent;
+            stroke: #e5e7eb;
+            stroke-width: 8;
+        }
+
+        .progress-ring-progress {
+            fill: transparent;
+            stroke: var(--secondary-color);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s;
+        }
+
+        .badge {
+            animation: bounceIn 1s ease;
+        }
+
+        .hidden { display: none !important; }
+        
+        .game-area {
+            min-height: 500px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+        }
+
+        .drag-item, .drop-zone {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .drag-item {
+            background: #4f46e5;
+            color: white;
+            cursor: move;
+        }
+
+        .drop-zone {
+            background: rgba(255,255,255,0.2);
+            border: 2px dashed rgba(255,255,255,0.5);
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .drop-zone.drag-over {
+            background: rgba(16,185,129,0.3);
+            border-color: var(--secondary-color);
+        }
+
+        .celebration {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 9999;
+            animation: bounceIn 0.8s ease;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid p-4">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="game-card text-center">
+                    <h1 class="display-4 text-primary mb-0">🎮 NCERT Learning World</h1>
+                    <p class="lead text-secondary">Class 10 Mathematics & Science Adventure</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Screen -->
+        <div id="loginScreen" class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="game-card text-center">
+                    <h2>🚀 Welcome to Learning Adventure!</h2>
+                    <div class="mb-4">
+                        <i class="fas fa-user-astronaut fa-3x text-primary mb-3"></i>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" id="usernameInput" class="form-control form-control-lg" placeholder="Enter your name" maxlength="15">
+                    </div>
+                    <button onclick="startGame()" class="btn btn-primary btn-lg">Start Adventure 🎯</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="hidden">
+            <!-- User Stats -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="game-card text-center">
+                        <div class="avatar mb-3">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h5 id="playerName">Player</h5>
+                        <div class="coin-counter">
+                            <i class="fas fa-coins"></i> <span id="coinCount">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="game-card">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>XP Progress</h6>
+                                <div class="xp-bar mb-2">
+                                    <div id="xpFill" class="xp-fill" style="width: 0%"></div>
+                                </div>
+                                <small>Level <span id="playerLevel">1</span> - <span id="xpText">0/100 XP</span></small>
+                            </div>
+                            <div class="col-md-3">
+                                <h6>Streak 🔥</h6>
+                                <h3 class="text-warning" id="streakCount">0</h3>
+                            </div>
+                            <div class="col-md-3">
+                                <h6>Chapters Complete</h6>
+                                <h3 class="text-success" id="completedChapters">0/26</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subject Selection -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="game-card text-center">
+                        <h2>📊 Mathematics World</h2>
+                        <p>Explore numbers, equations, and geometric wonders!</p>
+                        <button onclick="showSubject('maths')" class="chapter-btn btn-lg">
+                            <i class="fas fa-calculator"></i> Enter Maths World
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="game-card text-center">
+                        <h2>🧪 Science World</h2>
+                        <p>Discover physics, chemistry, and biology secrets!</p>
+                        <button onclick="showSubject('science')" class="chapter-btn btn-lg">
+                            <i class="fas fa-flask"></i> Enter Science World
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subject Screens -->
+        <div id="mathsSubject" class="hidden">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="game-card">
+                        <button onclick="showDashboard()" class="btn btn-outline-primary mb-3">
+                            <i class="fas fa-arrow-left"></i> Back to Home
+                        </button>
+                        <h2>📊 Mathematics Chapters</h2>
+                        <div class="row" id="mathsChapters">
+                            <!-- Chapters will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="scienceSubject" class="hidden">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="game-card">
+                        <button onclick="showDashboard()" class="btn btn-outline-primary mb-3">
+                            <i class="fas fa-arrow-left"></i> Back to Home
+                        </button>
+                        <h2>🧪 Science Chapters</h2>
+                        <div class="row" id="scienceChapters">
+                            <!-- Chapters will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="gameScreen" class="hidden">
+            <div class="row">
+                <div class="col-12">
+                    <div class="game-card">
+                        <button onclick="goBack()" class="btn btn-outline-primary mb-3">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <div id="gameContent">
+                            <!-- Game content will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Game Data
+        const gameData = {
+            player: {
+                name: '',
+                xp: 0,
+                coins: 0,
+                level: 1,
+                streak: 0,
+                completedChapters: [],
+                unlockedChapters: ['realNumbers', 'chemicalReactions']
+            },
+            currentSubject: '',
+            currentChapter: '',
+            currentGame: ''
+        };
+
+        // Chapter Data
+        const chapters = {
+            maths: [
+                { id: 'realNumbers', name: 'Real Numbers', icon: '🔢', game: 'factorization' },
+                { id: 'polynomials', name: 'Polynomials', icon: '📈', game: 'equationBuilder' },
+                { id: 'linearEquations', name: 'Linear Equations', icon: '⚖️', game: 'balanceGame' },
+                { id: 'quadraticEquations', name: 'Quadratic Equations', icon: '🎯', game: 'rootFinder' },
+                { id: 'arithmetic', name: 'Arithmetic Progressions', icon: '🔄', game: 'sequenceGame' },
+                { id: 'triangles', name: 'Triangles', icon: '📐', game: 'shapeBuilder' },
+                { id: 'coordinate', name: 'Coordinate Geometry', icon: '📍', game: 'pointPlotter' },
+                { id: 'trigonometry', name: 'Trigonometry', icon: '📊', game: 'angleHunter' },
+                { id: 'circles', name: 'Circles', icon: '⭕', game: 'circleGame' },
+                { id: 'areas', name: 'Areas & Volumes', icon: '📦', game: 'measureGame' },
+                { id: 'statistics', name: 'Statistics', icon: '📊', game: 'dataGame' },
+                { id: 'probability', name: 'Probability', icon: '🎲', game: 'diceGame' }
+            ],
+            science: [
+                { id: 'chemicalReactions', name: 'Chemical Reactions', icon: '⚗️', game: 'reactionGame' },
+                { id: 'acidsBasesSalts', name: 'Acids, Bases & Salts', icon: '🧪', game: 'phGame' },
+                { id: 'metals', name: 'Metals & Non-metals', icon: '🔩', game: 'periodicGame' },
+                { id: 'carbon', name: 'Carbon & Compounds', icon: '💎', game: 'moleculeBuilder' },
+                { id: 'lifeProcesses', name: 'Life Processes', icon: '🫀', game: 'organGame' },
+                { id: 'controlCoordination', name: 'Control & Coordination', icon: '🧠', game: 'nervousGame' },
+                { id: 'reproduction', name: 'Reproduction', icon: '🌱', game: 'reproductionGame' },
+                { id: 'heredity', name: 'Heredity & Evolution', icon: '🧬', game: 'geneticsGame' },
+                { id: 'light', name: 'Light - Reflection & Refraction', icon: '💡', game: 'mirrorMaze' },
+                { id: 'humanEye', name: 'Human Eye', icon: '👁️', game: 'visionGame' },
+                { id: 'electricity', name: 'Electricity', icon: '⚡', game: 'circuitBuilder' },
+                { id: 'magnetism', name: 'Magnetic Effects', icon: '🧲', game: 'magnetGame' },
+                { id: 'environment', name: 'Our Environment', icon: '🌍', game: 'ecoGame' }
+            ]
+        };
+
+        // Initialize game
+        function startGame() {
+            const name = document.getElementById('usernameInput').value.trim();
+            if (!name) {
+                alert('Please enter your name!');
+                return;
+            }
+            
+            gameData.player.name = name;
+            document.getElementById('playerName').textContent = name;
+            
+            loadGameData();
+            showScreen('dashboard');
+            playSound('start');
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll('[id$="Screen"], [id$="Subject"]').forEach(el => el.classList.add('hidden'));
+            document.getElementById(screenId === 'maths' || screenId === 'science' ? screenId + 'Subject' : screenId === 'game' ? 'gameScreen' : screenId).classList.remove('hidden');
+        }
+
+        function showDashboard() {
+            showScreen('dashboard');
+            updateUI();
+        }
+
+        function showSubject(subject) {
+            gameData.currentSubject = subject;
+            showScreen(subject);
+            loadChapters(subject);
+        }
+
+        function loadChapters(subject) {
+            const container = document.getElementById(subject + 'Chapters');
+            container.innerHTML = '';
+            
+            chapters[subject].forEach((chapter, index) => {
+                const isUnlocked = gameData.player.unlockedChapters.includes(chapter.id);
+                const isCompleted = gameData.player.completedChapters.includes(chapter.id);
+                
+                const chapterDiv = document.createElement('div');
+                chapterDiv.className = 'col-md-4 col-lg-3';
+                chapterDiv.innerHTML = `
+                    <div class="card h-100 chapter-card ${isUnlocked ? '' : 'locked'}" style="opacity: ${isUnlocked ? '1' : '0.5'}">
+                        <div class="card-body text-center">
+                            <div style="font-size: 3rem; margin-bottom: 10px;">
+                                ${chapter.icon}
+                                ${isCompleted ? '<span style="position: absolute; top: 5px; right: 5px; color: gold;">👑</span>' : ''}
+                                ${!isUnlocked ? '<span style="position: absolute; top: 5px; right: 5px;">🔒</span>' : ''}
+                            </div>
+                            <h6 class="card-title">${chapter.name}</h6>
+                            ${isUnlocked ? `
+                                <button onclick="startChapter('${subject}', '${chapter.id}')" class="btn btn-primary btn-sm">
+                                    ${isCompleted ? 'Replay' : 'Start'} 🎮
+                                </button>
+                            ` : '<small class="text-muted">Complete previous chapters to unlock</small>'}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(chapterDiv);
+            });
+        }
+
+        function startChapter(subject, chapterId) {
+            gameData.currentChapter = chapterId;
+            const chapter = chapters[subject].find(c => c.id === chapterId);
+            showScreen('game');
+            loadGame(chapter.game, chapter);
+        }
+
+        function loadGame(gameType, chapter) {
+            const gameContent = document.getElementById('gameContent');
+            
+            switch(gameType) {
+                case 'factorization':
+                    loadFactorizationGame(gameContent, chapter);
+                    break;
+                case 'equationBuilder':
+                    loadEquationBuilderGame(gameContent, chapter);
+                    break;
+                case 'angleHunter':
+                    loadAngleHunterGame(gameContent, chapter);
+                    break;
+                case 'diceGame':
+                    loadDiceGame(gameContent, chapter);
+                    break;
+                case 'reactionGame':
+                    loadChemicalReactionGame(gameContent, chapter);
+                    break;
+                case 'mirrorMaze':
+                    loadMirrorMazeGame(gameContent, chapter);
+                    break;
+                case 'circuitBuilder':
+                    loadCircuitBuilderGame(gameContent, chapter);
+                    break;
+                default:
+                    loadQuizGame(gameContent, chapter);
+            }
+        }
+
+        // Factorization Tower Game
+        function loadFactorizationGame(container, chapter) {
+            container.innerHTML = `
+                <div class="text-center mb-4">
+                    <h3>${chapter.icon} ${chapter.name} - Factorization Tower</h3>
+                    <p>Break down numbers into prime factors!</p>
+                </div>
+                <div class="game-area">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5>Number to Factor: <span id="targetNumber" class="text-primary">60</span></h5>
+                                    <div id="factorSlots" class="d-flex flex-wrap gap-2 mb-3">
+                                        <!-- Factor slots will appear here -->
+                                    </div>
+                                    <button onclick="checkFactorization()" class="btn btn-success">Check Answer</button>
+                                    <button onclick="resetFactorization()" class="btn btn-secondary ms-2">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6>Available Prime Factors:</h6>
+                                    <div id="primeFactors" class="d-flex flex-wrap gap-2">
+                                        ${[2,3,5,7,11,13,17,19].map(n => 
+                                            `<button class="btn btn-outline-primary prime-btn" onclick="addFactor(${n})">${n}</button>`
+                                        ).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            startFactorizationGame();
+        }
+
+        let currentFactorization = [];
+        let targetNum = 60;
+
+        function startFactorizationGame() {
+            targetNum = [24, 36, 48, 60, 72, 84, 96][Math.floor(Math.random() * 7)];
+            document.getElementById('targetNumber').textContent = targetNum;
+            currentFactorization = [];
+            updateFactorDisplay();
+        }
+
+        function addFactor(factor) {
+            currentFactorization.push(factor);
+            updateFactorDisplay();
+            playSound('click');
+        }
+
+        function updateFactorDisplay() {
+            const slotsDiv = document.getElementById('factorSlots');
+            slotsDiv.innerHTML = currentFactorization.map((f, i) => 
+                `<span class="badge bg-primary fs-6">${f} <button onclick="removeFactor(${i})" class="btn-close btn-close-white btn-sm ms-1"></button></span>`
+            ).join('');
+        }
+
+        function removeFactor(index) {
+            currentFactorization.splice(index, 1);
+            updateFactorDisplay();
+        }
+
+        function checkFactorization() {
+            const product = currentFactorization.reduce((a, b) => a * b, 1);
+            if (product === targetNum) {
+                awardPoints(50, 'Perfect factorization!');
+                setTimeout(() => startFactorizationGame(), 2000);
+            } else {
+                alert(`Incorrect! ${currentFactorization.join(' × ')} = ${product}, but target is ${targetNum}`);
+            }
+        }
+
+        function resetFactorization() {
+            currentFactorization = [];
+            updateFactorDisplay();
+        }
+
+        // Equation Builder Game
+        function loadEquationBuilderGame(container, chapter) {
+            container.innerHTML = `
+                <div class="text-center mb-4">
+                    <h3>${chapter.icon} ${chapter.name} - Equation Builder</h3>
+                    <p>Drag coefficients to build the correct polynomial!</p>
+                </div>
+                <div class="game-area">
+                    <div class="row">
+                        <div class="col-12 text-center mb-4">
+                            <h4>Build: <span id="targetPolynomial" class="text-warning">x² + 5x + 6</span></h4>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="equation-builder p-4" style="background: rgba(255,255,255,0.2); border-radius: 15px;">
+                                <div class="d-flex align-items-center justify-content-center flex-wrap gap-2">
+                                    <div class="drop-zone" data-position="a" ondrop="dropCoeff(event)" ondragover="allowDrop(event)">a</div>
+                                    <span class="fs-4">x² +</span>
+                                    <div class="drop-zone" data-position="b" ondrop="dropCoeff(event)" ondragover="allowDrop(event)">b</div>
+                                    <span class="fs-4">x +</span>
+                                    <div class="drop-zone" data-position="c" ondrop="dropCoeff(event)" ondragover="allowDrop(event)">c</div>
+                                </div>
+                                <div class="text-center mt-3">
+                                    <button onclick="checkPolynomial()" class="btn btn-success">Check Equation</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>Coefficients:</h6>
+                            <div id="coefficients" class="d-flex flex-wrap gap-2">
+                                ${[1,2,3,4,5,6,7,8,9].map(n => 
+                                    `<div class="drag-item" draggable="true" ondragstart="dragCoeff(event)" data-value="${n}">${n}</div>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            startPolynomialGame();
+        }
+
+        let polynomialCoeffs = {};
+        let targetPolynomial = { a: 1, b: 5, c: 6 };
+
+        function startPolynomialGame() {
+            const examples = [
+                { a: 1, b: 5, c: 6, display: "x² + 5x + 6" },
+                { a: 1, b: 3, c: 2, display: "x² + 3x + 2" },
+                { a: 2, b: 7, c: 3, display: "2x² + 7x + 3" }
+            ];
+            targetPolynomial = examples[Math.floor(Math.random() * examples.length)];
+            document.getElementById('targetPolynomial').textContent = targetPolynomial.display;
+            polynomialCoeffs = {};
+        }
+
+        function allowDrop(event) {
+            event.preventDefault();
+            event.target.classList.add('drag-over');
+        }
+
+        function dragCoeff(event) {
+            event.dataTransfer.setData("text", event.target.dataset.value);
+        }
+
+        function dropCoeff(event) {
+            event.preventDefault();
+            const value = parseInt(event.dataTransfer.getData("text"));
+            const position = event.target.dataset.position;
+            polynomialCoeffs[position] = value;
+            event.target.textContent = value;
+            event.target.classList.remove('drag-over');
+        }
+
+        function checkPolynomial() {
+            if (polynomialCoeffs.a === targetPolynomial.a && 
+                polynomialCoeffs.b === targetPolynomial.b && 
+                polynomialCoeffs.c === targetPolynomial.c) {
+                awardPoints(60, 'Perfect polynomial!');
+                setTimeout(() => startPolynomialGame(), 2000);
+            } else {
+                alert('Try again! Check the coefficients.');
+            }
+        }
+
+        // Angle Hunter Game
+        function loadAngleHunterGame(container, chapter) {
+            container.innerHTML = `
+                <div class="text-center mb-4">
+                    <h3>${chapter.icon} ${chapter.name} - Angle Hunter</h3>
+                    <p>Match trigonometric ratios with correct angles!</p>
+                </div>
+                <div class="game-area">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <h5>Find the angle where:</h5>
+                                    <h4 class="text-warning" id="trigRatio">sin θ = 1/2</h4>
+                                    <div class="angle-wheel" style="position: relative; width: 200px; height: 200px; margin: 0 auto;">
+                                        <div id="angleWheel" style="width: 100%; height: 100%; border: 3px solid #fff; border-radius: 50%; position: relative;">
+                                            ${[0,30,45,60,90,120,135,150,180].map(angle => 
+                                                `<button class="angle-btn" onclick="selectAngle(${angle})" 
+                                                 style="position: absolute; top: ${50 + 40 * Math.sin((angle-90) * Math.PI/180)}%; 
+                                                        left: ${50 + 40 * Math.cos((angle-90) * Math.PI/180)}%; 
+                                                        transform: translate(-50%, -50%);">${angle}°</button>`
+                                            ).join('')}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6>Trigonometric Values:</h6>
+                                    <ul class="list-unstyled">
+                                        <li>sin 30° = 1/2</li>
+                                        <li>sin 45° = √2/2</li>
+                                        <li>sin 60° = √3/2</li>
+                                        <li>cos 30° = √3/2</li>
+                                        <li>cos 45° = √2/2</li>
+                                        <li>cos 60° = 1/2</li>
+                                        <li>tan 45° = 1</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            startAngleGame();
+        }
+
+        let currentTrigProblem = {};
+
+        function startAngleGame() {
+            const problems = [
+                { ratio: "sin θ = 1/2", answer: 30 },
+                { ratio: "cos θ = 1/2", answer: 60 },
+                { ratio: "sin θ = √3/2", answer: 60 },
+                { ratio: "cos θ = √3/2", answer: 30 },
+                { ratio: "tan θ = 1", answer: 45 }
+            ];
+            currentTrigProblem = problems[Math.floor(Math.random() * problems.length)];
+            document.getElementById('trigRatio').textContent = currentTrigProblem.ratio;
+        }
+
+        function selectAngle(angle) {
+            if (angle === currentTrigProblem.answer) {
+                awardPoints(40, 'Correct angle!');
+                setTimeout(() => startAngleGame(), 2000);
+            } else {
+                alert(`Incorrect! Try again.`);
+            }
+        }
+
+        // Mirror Maze Game (Science)
+        function loadMirrorMazeGame(container, chapter) {
+            container.innerHTML = `
+                <div class="text-center mb-4">
+                    <h3>${chapter.icon} ${chapter.name} - Mirror Maze</h3>
+                    <p>Predict where the image will form!</p>
+                </div>
+                <div class="game-area">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mirror-setup" style="background: white; height: 400px; border-radius: 15px; position: relative; overflow: hidden;">
+                                <canvas id="mirrorCanvas" width="800" height="400" style="width: 100%; height: 100%;"></canvas>
+                                <div class="controls mt-3 text-center">
+                                    <button onclick="drawRay()" class="btn btn-primary">Draw Light Ray</button>
+                                    <button onclick="checkImagePosition()" class="btn btn-success">Check Image</button>
+                                    <button onclick="resetMirror()" class="btn btn-secondary">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            initMirrorGame();
+        }
+
+        function initMirrorGame() {
+            const canvas = document.getElementById('mirrorCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Draw mirror and object
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 3;
+            
+            // Draw concave mirror
+            ctx.beginPath();
+            ctx.arc(600, 200, 150, Math.PI * 0.7, Math.PI * 1.3);
+            ctx.stroke();
+            
+            // Draw object
+            ctx.fillStyle = 'red';
+            ctx.fillRect(200, 180, 20, 40);
+            ctx.fillText('Object', 200, 170);
+            
+            // Draw principal axis
+            ctx.strokeStyle = '#ccc';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, 200);
+            ctx.lineTo(800, 200);
+            ctx.stroke();
+        }
+
+        function drawRay() {
+            const canvas = document.getElementById('mirrorCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Draw incident ray
+            ctx.strokeStyle = 'blue';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(210, 180);
+            ctx.lineTo(550, 150);
+            ctx.stroke();
+            
+            // Draw reflected ray
+            ctx.beginPath();
+            ctx.moveTo(550, 150);
+            ctx.lineTo(350, 240);
+            ctx.stroke();
+            
+            playSound('draw');
+        }
+
+        function checkImagePosition() {
+            awardPoints(70, 'Great ray diagram!');
+        }
+
+        function resetMirror() {
+            initMirrorGame();
+        }
+
+        // Circuit Builder Game
+        function loadCircuitBuilderGame(container, chapter) {
+            container.innerHTML = `
+                <div class="text-center mb-4">
+                    <h3>${chapter.icon} ${chapter.name} - Circuit Builder</h3>
+                    <p>Connect components to complete the circuit!</p>
+                </div>
+                <div class="game-area">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="circuit-board" style="background: white; height: 400px; border-radius: 15px; position: relative; padding: 20px;">
+                                <div id="circuitArea" class="h-100 position-relative">
+                                    <!-- Circuit components will be placed here -->
+                                    <div class="component battery" style="position: absolute; top: 50px; left: 50px; width: 60px; height: 30px; background: #ffd700; border-radius: 5px; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="selectComponent('battery')">
+                                        🔋
+                                    </div>
+                                    <div class="component bulb" style="position: absolute; top: 50px; right: 50px; width: 50px; height: 50px; background: #ffeb3b; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="selectComponent('bulb')">
+                                        💡
+                                    </div>
+                                    <div class="component switch" style="position: absolute; top: 200px; left: 200px; width: 60px; height: 20px; background: #9e9e9e; border-radius: 5px; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="toggleSwitch()">
+                                        🔘
+                                    </div>
+                                </div>
+                                <div class="text-center mt-3">
+                                    <button onclick="testCircuit()" class="btn btn-success">Test Circuit</button>
+                                    <button onclick="resetCircuit()" class="btn btn-secondary ms-2">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6>Instructions:</h6>
+                                    <ol>
+                                        <li>Click components to select them</li>
+                                        <li>Draw wires by clicking connections</li>
+                                        <li>Make sure current flows from battery through switch to bulb</li>
+                                        <li>Close the switch to complete circuit</li>
+                                    </ol>
+                                    <h6 class="mt-3">Circuit Status:</h6>
+                                    <p id="circuitStatus" class="text-info">Open Circuit</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        let switchClosed = false;
+        let selectedComponent = null;
+
+        function selectComponent(component) {
+            selectedComponent = component;
+            playSound('click');
+        }
+
+        function toggleSwitch() {
+            switchClosed = !switchClosed;
+            const switchEl = document.querySelector('.switch');
+            switchEl.style.background = switchClosed ? '#4caf50' : '#9e9e9e';
+            switchEl.textContent = switchClosed ? '🔵' : '🔘';
+            updateCircuitStatus();
+        }
+
+        function updateCircuitStatus() {
+            const status = document.getElementById('circuitStatus');
+            if (switchClosed) {
+                status.textContent = 'Closed Circuit - Current Flowing!';
+                status.className = 'text-success';
+                // Make bulb glow
+                document.querySelector('.bulb').style.background = '#ffff00';
+                document.querySelector('.bulb').style.boxShadow = '0 0 20px #ffff00';
+            } else {
+                status.textContent = 'Open Circuit - No Current';
+                status.className = 'text-danger';
+                // Dim bulb
+                document.querySelector('.bulb').style.background = '#ffeb3b';
+                document.querySelector('.bulb').style.boxShadow = 'none';
+            }
+        }
+
+        function testCircuit() {
+            if (switchClosed) {
+                awardPoints(80, 'Circuit completed successfully!');
+            } else {
+                alert('Close the switch to complete the circuit!');
+            }
+        }
+
+        function resetCircuit() {
+            switchClosed = false;
+            toggleSwitch();
+        }
+
+        // Generic Quiz Game
+        function loadQuizGame(container, chapter) {
+            const quizQuestions = getQuizQuestions(chapter.id);
+            
+            container.innerHTML = `
+                <div class="text-center mb-4">
+                    <h3>${chapter.icon} ${chapter.name} - Quick Quiz</h3>
+                    <p>Test your knowledge!</p>
+                </div>
+                <div id="quizArea" class="game-screen">
+                    <!-- Quiz questions will be loaded here -->
+                </div>
+            `;
+            
+            startQuiz(quizQuestions);
+        }
+
+        let currentQuiz = [];
+        let currentQuestionIndex = 0;
+        let quizScore = 0;
+
+        function getQuizQuestions(chapterId) {
+            const questions = {
+                realNumbers: [
+                    {
+                        question: "Which of the following is an irrational number?",
+                        options: ["√4", "√9", "√2", "√16"],
+                        correct: 2,
+                        explanation: "√2 is irrational as it cannot be expressed as a ratio of integers."
+                    },
+                    {
+                        question: "What is the HCF of 12 and 18?",
+                        options: ["2", "3", "6", "9"],
+                        correct: 2,
+                        explanation: "HCF of 12 and 18 is 6, the largest number that divides both."
+                    }
+                ],
+                chemicalReactions: [
+                    {
+                        question: "In the reaction 2H₂ + O₂ → 2H₂O, what type of reaction is this?",
+                        options: ["Decomposition", "Combination", "Displacement", "Double displacement"],
+                        correct: 1,
+                        explanation: "This is a combination reaction where two reactants combine to form one product."
+                    },
+                    {
+                        question: "Which gas is produced when metals react with acids?",
+                        options: ["Oxygen", "Carbon dioxide", "Hydrogen", "Nitrogen"],
+                        correct: 2,
+                        explanation: "Metals react with acids to produce hydrogen gas and salt."
+                    }
+                ]
+            };
+            
+            return questions[chapterId] || questions.realNumbers;
+        }
+
+        function startQuiz(questions) {
+            currentQuiz = questions;
+            currentQuestionIndex = 0;
+            quizScore = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentQuestionIndex >= currentQuiz.length) {
+                showQuizResults();
+                return;
+            }
+            
+            const question = currentQuiz[currentQuestionIndex];
+            const quizArea = document.getElementById('quizArea');
+            
+            quizArea.innerHTML = `
+                <div class="text-center mb-4">
+                    <div class="progress mb-3">
+                        <div class="progress-bar" style="width: ${((currentQuestionIndex + 1) / currentQuiz.length) * 100}%"></div>
+                    </div>
+                    <h5>Question ${currentQuestionIndex + 1} of ${currentQuiz.length}</h5>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">${question.question}</h4>
+                        <div class="options">
+                            ${question.options.map((option, index) => 
+                                `<div class="quiz-option" onclick="selectAnswer(${index})">
+                                    ${String.fromCharCode(65 + index)}. ${option}
+                                </div>`
+                            ).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectAnswer(selectedIndex) {
+            const question = currentQuiz[currentQuestionIndex];
+            const options = document.querySelectorAll('.quiz-option');
+            
+            options.forEach((option, index) => {
+                option.onclick = null; // Disable further clicks
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex) {
+                    option.classList.add('wrong');
+                }
+            });
+            
+            if (selectedIndex === question.correct) {
+                quizScore++;
+                playSound('correct');
+            } else {
+                playSound('wrong');
+            }
+            
+            // Show explanation
+            setTimeout(() => {
+                const explanationDiv = document.createElement('div');
+                explanationDiv.className = 'alert alert-info mt-3';
+                explanationDiv.innerHTML = `<strong>Explanation:</strong> ${question.explanation}`;
+                document.querySelector('.card-body').appendChild(explanationDiv);
+                
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'btn btn-primary mt-3';
+                nextBtn.textContent = currentQuestionIndex < currentQuiz.length - 1 ? 'Next Question' : 'Show Results';
+                nextBtn.onclick = nextQuestion;
+                document.querySelector('.card-body').appendChild(nextBtn);
+            }, 1000);
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            showQuestion();
+        }
+
+        function showQuizResults() {
+            const percentage = Math.round((quizScore / currentQuiz.length) * 100);
+            const quizArea = document.getElementById('quizArea');
+            
+            quizArea.innerHTML = `
+                <div class="text-center">
+                    <div class="celebration">
+                        <h2>🎉 Quiz Complete!</h2>
+                        <div class="mb-4">
+                            <div style="font-size: 4rem; margin: 20px 0;">
+                                ${percentage >= 80 ? '🏆' : percentage >= 60 ? '🥈' : '🥉'}
+                            </div>
+                            <h3>Score: ${quizScore}/${currentQuiz.length} (${percentage}%)</h3>
+                        </div>
+                        <button onclick="completeChapter()" class="btn btn-success btn-lg">
+                            Continue Adventure 🚀
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            awardPoints(quizScore * 20, `Quiz completed with ${percentage}% score!`);
+        }
+
+        function completeChapter() {
+            const chapterId = gameData.currentChapter;
+            if (!gameData.player.completedChapters.includes(chapterId)) {
+                gameData.player.completedChapters.push(chapterId);
+                
+                // Unlock next chapter
+                const currentSubjectChapters = chapters[gameData.currentSubject];
+                const currentIndex = currentSubjectChapters.findIndex(c => c.id === chapterId);
+                if (currentIndex < currentSubjectChapters.length - 1) {
+                    const nextChapterId = currentSubjectChapters[currentIndex + 1].id;
+                    if (!gameData.player.unlockedChapters.includes(nextChapterId)) {
+                        gameData.player.unlockedChapters.push(nextChapterId);
+                        showCelebration('New chapter unlocked!');
+                    }
+                }
+            }
+            
+            saveGameData();
+            showSubject(gameData.currentSubject);
+        }
+
+        // UI Management
+        function updateUI() {
+            document.getElementById('coinCount').textContent = gameData.player.coins;
+            document.getElementById('streakCount').textContent = gameData.player.streak;
+            document.getElementById('completedChapters').textContent = `${gameData.player.completedChapters.length}/${chapters.maths.length + chapters.science.length}`;
+            
+            const level = Math.floor(gameData.player.xp / 100) + 1;
+            const xpInLevel = gameData.player.xp % 100;
+            
+            document.getElementById('playerLevel').textContent = level;
+            document.getElementById('xpText').textContent = `${gameData.player.xp}/${level * 100} XP`;
+            document.getElementById('xpFill').style.width = `${xpInLevel}%`;
+            
+            if (level > gameData.player.level) {
+                gameData.player.level = level;
+                showCelebration('Level Up!');
+            }
+        }
+
+        function awardPoints(points, message) {
+            gameData.player.xp += points;
+            gameData.player.coins += Math.floor(points / 10);
+            
+            showCelebration(message);
+            updateUI();
+            saveGameData();
+            playSound('reward');
+        }
+
+        function showCelebration(message) {
+            const celebration = document.createElement('div');
+            celebration.className = 'celebration';
+            celebration.innerHTML = `
+                <h3>🎉 ${message}</h3>
+                <div style="font-size: 3rem; margin: 20px 0;">⭐</div>
+            `;
+            
+            document.body.appendChild(celebration);
+            
+            setTimeout(() => {
+                celebration.remove();
+            }, 2000);
+        }
+
+        // Data Management
+        function saveGameData() {
+            localStorage.setItem('ncertLearningGame', JSON.stringify(gameData));
+        }
+
+        function loadGameData() {
+            const saved = localStorage.getItem('ncertLearningGame');
+            if (saved) {
+                const savedData = JSON.parse(saved);
+                Object.assign(gameData.player, savedData.player);
+            }
+            updateUI();
+        }
+
+        // Navigation
+        function goBack() {
+            if (gameData.currentChapter) {
+                showSubject(gameData.currentSubject);
+            } else if (gameData.currentSubject) {
+                showDashboard();
+            }
+        }
+
+        // Sound Effects
+        function playSound(type) {
+            // Create audio context and play sounds
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                const frequencies = {
+                    'click': 800,
+                    'correct': 1000,
+                    'wrong': 300,
+                    'reward': 1200,
+                    'start': 600,
+                    'draw': 500
+                };
+                
+                oscillator.frequency.setValueAtTime(frequencies[type] || 400, audioContext.currentTime);
+                oscillator.type = 'square';
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 0.1);
+            } catch (e) {
+                // Fallback for browsers that don't support Web Audio API
+                console.log('Sound: ' + type);
+            }
+        }
+
+        // Initialize the game when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add some initial styling animations
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
