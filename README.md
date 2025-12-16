@@ -7,17 +7,17 @@ PolicyGuard: Insurance Churn Prediction System is a data-driven solution that ap
 This project addresses these challenges by integrating machine learning algorithms such as Random Forest and Logistic Regression to identify churn patterns based on customer demographics, policy details, payment history, and claim behavior. The system provides an interactive web interface where users can upload datasets, view churn predictions, analyze insights through dashboards, and receive actionable recommendations. By automating churn prediction, PolicyGuard helps insurance organizations reduce revenue loss and enhance customer retention strategies.
 
 ## Features
-Machine learning–based churn prediction using Random Forest and Logistic Regression
+- Machine learning–based churn prediction using Random Forest and Logistic Regression
 
-Web-based application for easy data upload and result visualization
+- Web-based application for easy data upload and result visualization
 
-Interactive dashboard with churn statistics and probability analysis
+- Interactive dashboard with churn statistics and probability analysis
 
-Actionable recommendations for customer retention
+- Actionable recommendations for customer retention
 
-Scalable and modular system architecture
+- Scalable and modular system architecture
 
-Secure handling of data and API credentials
+- Secure handling of data and API credentials
 
 ## Requirements
 Operating System:
